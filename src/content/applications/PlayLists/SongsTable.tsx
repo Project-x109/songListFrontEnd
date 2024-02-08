@@ -131,7 +131,7 @@ const SongsTable: FC<RecentSongsTableProps> = ({ songs }) => {
                       }}
                       color="inherit"
                       size="small"
-                      onClick={() => handleEditSong(song)} // Call handleEditSong function with the selected song
+                      onClick={() => handleEditSong(song)}
                     >
                       <EditTwoToneIcon fontSize="small" />
                     </IconButton>

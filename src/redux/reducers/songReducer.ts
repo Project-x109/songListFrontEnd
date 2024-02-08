@@ -36,7 +36,6 @@ const songReducer = createReducer(initialState, (builder) => {
       state.success = null;
     })
     .addCase(songActions.updateSongSuccess, (state, action) => {
-      console.log(action.payload.message);
       const index = state.songs.findIndex(
         (song) => song._id === action.payload.song._id
       );
