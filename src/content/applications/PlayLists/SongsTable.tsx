@@ -114,7 +114,7 @@ const SongsTable: FC<RecentSongsTableProps> = ({ songs }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedSongs.map((song) => (
+            {paginatedSongs?.reverse()?.map((song) => (
               <TableRow hover key={song._id}>
                 <TableCell>{song.title}</TableCell>
                 <TableCell>{song.artist}</TableCell>
