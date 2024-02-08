@@ -99,7 +99,7 @@ function Logo() {
 
   return (
     <TooltipWrapper title="My PlayList" arrow>
-      <LogoWrapper to="/overview">
+      <LogoWrapper to="/dashboards/dashboardartist">
         <Badge
           sx={{
             '.MuiBadge-badge': {
