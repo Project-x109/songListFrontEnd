@@ -66,7 +66,7 @@ function PopularArtists() {
     Nicky: 'Hip-Hop Music',
     'The Byrds': 'Country Music',
     check: 'Electronic Music',
-    default: 'Unknown Artist'
+    default: 'Unknown Genre'
   };
 
   const dataWithImages =
