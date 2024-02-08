@@ -57,21 +57,24 @@ function PopularArtists() {
     'Marthin Garrix': '/static/images/placeholders/logo/cardano.png',
     Nicky: '/static/images/placeholders/logo/bitcoin.png',
     'The Byrds': '/static/images/placeholders/logo/ethereum.png',
-    check: '/static/images/placeholders/logo/bitcoin.png'
+    check: '/static/images/placeholders/logo/bitcoin.png',
+    default: '/static/images/placeholders/logo/default.png'
   };
+
   const alt = {
     'Marthin Garrix': 'Pop Music',
     Nicky: 'Hip-Hop Music',
     'The Byrds': 'Country Music',
-    check: 'Electronic Music'
+    check: 'Electronic Music',
+    default: 'Unknown Artist'
   };
+
   const dataWithImages =
     chartData?.slice(0, 4).map((item) => ({
       ...item,
-      imageUrl: images[item._id] || '',
-      alt: alt[item._id] || ''
+      imageUrl: images[item._id] || images['default'],
+      alt: alt[item._id] || alt['default']
     })) || [];
-  console.log(dataWithImages);
   return (
     <>
       <Box

@@ -64,7 +64,6 @@ export const updateSong = async (id: string, songData: any) => {
 };
 
 export const deleteSong = async (id: string) => {
-  console.log(id);
   try {
     const response = await api.delete(`/songs/${id}`);
     return response.data;

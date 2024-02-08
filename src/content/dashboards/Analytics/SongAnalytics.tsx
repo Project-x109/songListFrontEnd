@@ -143,20 +143,22 @@ function SongAnalytics() {
     Pop: '/static/images/placeholders/logo/cardano.png',
     'Hip Hop': '/static/images/placeholders/logo/bitcoin.png',
     Country: '/static/images/placeholders/logo/ethereum.png',
-    Electronic: '/static/images/placeholders/logo/bitcoin.png'
+    Electronic: '/static/images/placeholders/logo/bitcoin.png',
+    default: '/static/images/placeholders/logo/default.png'
   };
   const alt = {
     Rock: 'Rock Music',
     Pop: 'Pop Music',
     'Hip Hop': 'Hip-Hop Music',
     Country: 'Country Music',
-    Electronic: 'Electronic Music'
+    Electronic: 'Electronic Music',
+    default: 'Unknown Genre'
   };
   const dataWithImages =
     data?.slice(0, 4)?.map((item) => ({
       ...item,
-      imageUrl: images[item._id],
-      alt: alt[item._id]
+      imageUrl: images[item._id] || images['default'],
+      alt: alt[item._id] || alt['default']
     })) || [];
   const totalNumberOfSongs = data?.reduce((acc, cur) => acc + cur.count, 0);
   return (
