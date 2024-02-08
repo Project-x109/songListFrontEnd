@@ -160,7 +160,6 @@ function SongAnalytics() {
       imageUrl: images[item._id] || images['default'],
       alt: alt[item._id] || alt['default']
     })) || [];
-  const totalNumberOfSongs = data?.reduce((acc, cur) => acc + cur.count, 0);
   return (
     <Card>
       <Grid spacing={0} container>
@@ -176,7 +175,7 @@ function SongAnalytics() {
             </Typography>
             <Box>
               <Typography variant="h1" gutterBottom>
-                {totalNumberOfSongs || '-'}
+                {statData?.songCount || '-'}
               </Typography>
             </Box>
           </Box>

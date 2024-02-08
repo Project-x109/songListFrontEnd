@@ -14,4 +14,5 @@ export interface DATA {
   artistCount: number;
   albumCount: number;
   genreCount: number;
+  songCount: number;
 }
