@@ -1,0 +1,3 @@
+[build]
+  environment = { NODE_OPTIONS = "--max_old_space_size=4096",CI = "false", NODE_VERSION = "14.17.3", BUILD_IMAGE = "nodejs.org/build-image", NPM_CONFIG_PRODUCTION = "false" }
+
