@@ -1,4 +1,4 @@
-import { FC, ChangeEvent, useState } from 'react';
+import React, { FC, ChangeEvent, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Tooltip,
@@ -11,7 +11,14 @@ import {
   TablePagination,
   TableRow,
   TableContainer,
-  useTheme
+  useTheme,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Card,
+  CardHeader,
+  Divider
 } from '@mui/material';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
@@ -30,7 +37,7 @@ import {
   fetchCountPopularArtist,
   fetchStatistics
 } from 'src/redux/actions/statisticsAction';
-
+import { SelectChangeEvent } from '@mui/material';
 interface RecentSongsTableProps {
   songs: Song[];
 }
@@ -40,10 +47,12 @@ const SongsTable: FC<RecentSongsTableProps> = ({ songs }) => {
   const [limit, setLimit] = useState<number>(5);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [selectedSong, setSelectedSong] = useState<Song | null>(null); // State to store the selected song
+  const [selectedGenre, setSelectedGenre] = useState<string>(''); // State to store the selected genre filter
 
   const successMessage = useSelector((state: RootState) => state.song.success);
   const errorMessage = useSelector((state: RootState) => state.song.error);
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (successMessage) {
       Swal.fire({
@@ -62,6 +71,7 @@ const SongsTable: FC<RecentSongsTableProps> = ({ songs }) => {
     dispatch(fetchStatistics());
     dispatch(clereMessages());
   }, [successMessage, errorMessage]);
+
   const handlePageChange = (event: any, newPage: number): void => {
     setPage(newPage);
   };
@@ -69,9 +79,6 @@ const SongsTable: FC<RecentSongsTableProps> = ({ songs }) => {
   const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setLimit(parseInt(event.target.value));
   };
-
-  const paginatedSongs = songs.slice(page * limit, page * limit + limit);
-  const theme = useTheme();
 
   const handleEditSong = (song: Song): void => {
     setSelectedSong(song);
@@ -81,6 +88,7 @@ const SongsTable: FC<RecentSongsTableProps> = ({ songs }) => {
   const handleCloseModal = (): void => {
     setOpenModal(false);
   };
+
   const handleDelete = (song) => {
     Swal.fire({
       title: 'Are you sure?',
@@ -99,9 +107,49 @@ const SongsTable: FC<RecentSongsTableProps> = ({ songs }) => {
     });
   };
 
+  const handleGenreChange = (event: SelectChangeEvent<string>): void => {
+    setSelectedGenre(event.target.value);
+  };
+
+  const filteredSongs = selectedGenre
+    ? songs.filter((song) => song.genre === selectedGenre)
+    : songs;
+
+  const paginatedSongs = filteredSongs.slice(
+    page * limit,
+    page * limit + limit
+  );
+  const theme = useTheme();
+
   return (
-    <div>
+    <Card>
       <ToastContainer position="bottom-right" />
+      <CardHeader
+        action={
+          <Box width={150}>
+            <FormControl fullWidth variant="outlined" sx={{ mb: 2 }}>
+              <InputLabel id="genre-filter-label">Filter by Genre</InputLabel>
+              <Select
+                labelId="genre-filter-label"
+                value={selectedGenre}
+                onChange={handleGenreChange}
+                label="Filter by Genre"
+              >
+                <MenuItem value="">All</MenuItem>
+                {Array.from(new Set(songs.map((song) => song.genre))).map(
+                  (genre, index) => (
+                    <MenuItem key={index} value={genre}>
+                      {genre}
+                    </MenuItem>
+                  )
+                )}
+              </Select>
+            </FormControl>
+          </Box>
+        }
+        title="Available Songs"
+      />
+      <Divider />
       <TableContainer>
         <Table>
           <TableHead>
@@ -157,7 +205,7 @@ const SongsTable: FC<RecentSongsTableProps> = ({ songs }) => {
         <Box p={2}>
           <TablePagination
             component="div"
-            count={songs.length}
+            count={filteredSongs.length}
             onPageChange={handlePageChange}
             onRowsPerPageChange={handleLimitChange}
             page={page}
@@ -172,7 +220,7 @@ const SongsTable: FC<RecentSongsTableProps> = ({ songs }) => {
         action="update"
         song={selectedSong}
       />
-    </div>
+    </Card>
   );
 };
 
